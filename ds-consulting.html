@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS Consulting — Expertise Digitale & Stratégie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1A2E4A;
+    --navy-dark: #0F1E30;
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --white: #FFFFFF;
+    --off-white: #F7F8FA;
+    --text: #2C3E50;
+    --text-muted: #6B7280;
+    --border: rgba(26,46,74,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--off-white); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(15,30,48,0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    transition: all 0.3s ease;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 70px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--gold), #a87d30);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px; font-weight: 700;
+    color: var(--navy-dark);
+    letter-spacing: -0.5px;
+  }
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.3px;
+  }
+  .logo-text span { color: var(--gold); }
+  .nav-links {
+    display: flex; align-items: center; gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none; font-size: 14px; font-weight: 400;
+    transition: color 0.2s;
+    letter-spacing: 0.2px;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold);
+    color: var(--navy-dark) !important;
+    padding: 9px 22px !important;
+    border-radius: 4px;
+    font-weight: 500 !important;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 70px; left: 0; right: 0;
+    background: rgba(15,30,48,0.98);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    z-index: 999;
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+  .mobile-menu a {
+    color: rgba(255,255,255,0.8); text-decoration: none;
+    font-size: 15px; display: block; padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .mobile-menu a.nav-cta {
+    color: var(--navy-dark) !important;
+    text-align: center; padding: 10px !important;
+    margin-top: 0.5rem; border: none;
+  }
+
+  /* ── HERO ── */
+  #accueil {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 60%, #1e3a5f 100%);
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 140px 2rem 80px;
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.8) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.8) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-glow {
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    position: relative; z-index: 1;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px; font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.15;
+    max-width: 750px;
+    margin-bottom: 1.5rem;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--gold);
+    position: relative;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-bottom: 4rem;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy-dark);
+    border: none; border-radius: 4px;
+    padding: 14px 30px;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.2s ease;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.2px;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 4px;
+    padding: 14px 30px;
+    font-size: 14px; font-weight: 400;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.2s ease;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-stats {
+    display: flex; gap: 3rem; flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 2.5rem;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 700;
+    color: var(--gold);
+    display: block; line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 2rem; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+  }
+  h2 em { font-style: normal; color: var(--gold); }
+  .section-lead {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3.5rem;
+    font-weight: 300;
+  }
+
+  /* ── À PROPOS ── */
+  #apropos { background: var(--off-white); }
+  .apropos-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .apropos-visual {
+    position: relative;
+  }
+  .apropos-card {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .apropos-card::before {
+    content: 'DS';
+    position: absolute; right: -20px; bottom: -30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 140px; font-weight: 700;
+    color: rgba(201,168,76,0.06);
+    line-height: 1; pointer-events: none;
+  }
+  .apropos-card-tag {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem; font-weight: 500;
+  }
+  .apropos-card p {
+    color: rgba(255,255,255,0.75);
+    font-size: 14px; line-height: 1.8; font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .apropos-line {
+    width: 40px; height: 2px;
+    background: var(--gold);
+    margin: 1.5rem 0;
+  }
+  .values-list { list-style: none; margin-top: 1.5rem; }
+  .values-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 1rem;
+  }
+  .val-icon {
+    width: 32px; height: 32px; flex-shrink: 0;
+    background: rgba(201,168,76,0.15);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .val-text strong {
+    display: block; font-size: 14px; font-weight: 500;
+    color: var(--white); margin-bottom: 2px;
+  }
+  .val-text span {
+    font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 300;
+  }
+  .apropos-text {}
+  .apropos-text p {
+    font-size: 1rem; line-height: 1.8;
+    color: var(--text-muted); margin-bottom: 1.25rem; font-weight: 300;
+  }
+  .apropos-text p strong { color: var(--text); font-weight: 500; }
+  .expertise-badges {
+    display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem;
+  }
+  .badge {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 12px; font-weight: 500;
+    color: var(--navy);
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--white); }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .service-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .service-card:hover { box-shadow: 0 20px 50px rgba(26,46,74,0.1); transform: translateY(-4px); border-color: rgba(201,168,76,0.3); }
+  .service-card:hover::after { transform: scaleX(1); }
+  .service-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; font-weight: 700;
+    color: rgba(26,46,74,0.06);
+    line-height: 1; margin-bottom: 1rem;
+    user-select: none;
+  }
+  .service-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 1.5rem;
+  }
+  .service-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.75rem; line-height: 1.3;
+  }
+  .service-card > p {
+    font-size: 14px; line-height: 1.7;
+    color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 300;
+  }
+  .service-list {
+    list-style: none; margin-bottom: 2rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+  .service-list li {
+    font-size: 13px; color: var(--text);
+    padding: 6px 0;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid rgba(26,46,74,0.05);
+  }
+  .service-list li::before {
+    content: '';
+    width: 4px; height: 4px;
+    background: var(--gold); border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .service-link {
+    font-size: 13px; font-weight: 500;
+    color: var(--gold);
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: gap 0.2s;
+  }
+  .service-link:hover { gap: 10px; }
+
+  /* ── CONFIANCE ── */
+  #confiance { background: var(--navy); padding: 80px 2rem; }
+  #confiance .section-tag { color: var(--gold); }
+  #confiance h2 { color: var(--white); }
+  #confiance h2 em { color: var(--gold); }
+  #confiance .section-lead { color: rgba(255,255,255,0.55); }
+  .confiance-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 13px; font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 3rem;
+  }
+  .logos-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+  }
+  .logo-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 1.5rem 1rem;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.25s ease;
+  }
+  .logo-item:hover { background: rgba(255,255,255,0.07); border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+  .logo-initials {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--gold);
+  }
+  .logo-name {
+    font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase; font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+  }
+
+  /* ── TÉMOIGNAGES ── */
+  #temoignages { background: var(--off-white); }
+  .temoignages-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .temo-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex; flex-direction: column;
+    transition: all 0.25s ease;
+  }
+  .temo-card:hover { box-shadow: 0 12px 40px rgba(26,46,74,0.08); transform: translateY(-3px); }
+  .stars {
+    display: flex; gap: 3px; margin-bottom: 1.25rem;
+  }
+  .star { color: var(--gold); font-size: 14px; }
+  .temo-quote {
+    font-size: 0.95rem; line-height: 1.8;
+    color: var(--text); font-weight: 300;
+    flex: 1; margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .temo-quote::before {
+    content: '\201C';
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; color: var(--gold);
+    line-height: 0; vertical-align: -0.6em;
+    margin-right: 4px;
+  }
+  .temo-author {
+    display: flex; align-items: center; gap: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+  .author-avatar {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), #1e3a5f);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .author-name { font-size: 14px; font-weight: 500; color: var(--navy); }
+  .author-role { font-size: 12px; color: var(--text-muted); font-weight: 300; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--white); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1.6fr;
+    gap: 5rem; align-items: start;
+  }
+  .contact-info {}
+  .contact-info p {
+    font-size: 1rem; line-height: 1.8;
+    color: var(--text-muted); font-weight: 300;
+    margin-bottom: 2.5rem;
+  }
+  .contact-items { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 1rem 1.25rem;
+    background: var(--off-white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .contact-item:hover { border-color: var(--gold); background: rgba(201,168,76,0.04); }
+  .contact-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: var(--navy);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .contact-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 500; }
+  .contact-val { font-size: 14px; font-weight: 500; color: var(--navy); }
+
+  /* FORM */
+  .form-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 30px rgba(26,46,74,0.06);
+  }
+  .form-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 600;
+    color: var(--navy); margin-bottom: 0.5rem;
+  }
+  .form-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 2rem; font-weight: 300; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.25rem; }
+  .form-group label { font-size: 12px; font-weight: 500; color: var(--navy); letter-spacing: 0.3px; text-transform: uppercase; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    width: 100%;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+    background: var(--white);
+  }
+  .form-group textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+  .form-group select { appearance: none; cursor: pointer; }
+  .form-submit { width: 100%; }
+  .success-msg {
+    display: none;
+    background: rgba(26,164,94,0.08);
+    border: 1px solid rgba(26,164,94,0.2);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-size: 14px; color: #1a6e42;
+    margin-top: 1rem; font-weight: 500;
+  }
+  .field-error {
+    font-size: 11px; color: #dc2626; margin-top: 4px; display: none;
+  }
+  .form-group.error input,
+  .form-group.error select,
+  .form-group.error textarea {
+    border-color: #dc2626;
+  }
+  .form-group.error .field-error { display: block; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy-dark);
+    padding: 60px 2rem 30px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand p {
+    font-size: 13px; line-height: 1.8;
+    color: rgba(255,255,255,0.45); font-weight: 300;
+    margin-top: 1rem; max-width: 260px;
+  }
+  .footer-col h4 {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    font-weight: 500; color: var(--gold); margin-bottom: 1.25rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.6rem; }
+  .footer-col a {
+    font-size: 13px; color: rgba(255,255,255,0.45);
+    text-decoration: none; transition: color 0.2s; font-weight: 300;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-divider { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 1.5rem; }
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); font-weight: 300; }
+  .footer-socials { display: flex; gap: 0.75rem; }
+  .social-btn {
+    width: 34px; height: 34px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .social-btn:hover { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.3); }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .fade-up:nth-child(1) { transition-delay: 0s; }
+  .fade-up:nth-child(2) { transition-delay: 0.1s; }
+  .fade-up:nth-child(3) { transition-delay: 0.2s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .logos-grid { grid-template-columns: repeat(3, 1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .apropos-grid { gap: 3rem; }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    h1 { font-size: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+    .apropos-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .temoignages-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .logos-grid { grid-template-columns: repeat(3, 1fr); }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .form-row { grid-template-columns: 1fr; }
+    section { padding: 70px 1.25rem; }
+    #confiance { padding: 70px 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#accueil" class="nav-logo">
+      <div class="logo-mark">DS</div>
+      <span class="logo-text">DS <span>Consulting</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#apropos">À propos</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#confiance">Références</a></li>
+      <li><a href="#temoignages">Témoignages</a></li>
+      <li><a href="#contact" class="nav-cta">Nous contacter</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#apropos" onclick="closeMenu()">À propos</a></li>
+    <li><a href="#services" onclick="closeMenu()">Services</a></li>
+    <li><a href="#confiance" onclick="closeMenu()">Références</a></li>
+    <li><a href="#temoignages" onclick="closeMenu()">Témoignages</a></li>
+    <li><a href="#contact" class="nav-cta" onclick="closeMenu()">Nous contacter</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section id="accueil">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Agence de Consulting Digitale</div>
+    <h1>Transformez votre présence digitale en <em>moteur de croissance</em></h1>
+    <p class="hero-sub">DS Consulting accompagne les entreprises et associations dans leur transformation digitale grâce à une approche sur mesure, orientée résultats et fondée sur l'expertise terrain.</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">Découvrir nos services →</a>
+      <a href="#contact" class="btn-secondary">Prendre rendez-vous</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">50+</span>
+        <span class="stat-label">Clients accompagnés</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">8</span>
+        <span class="stat-label">Années d'expérience</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">120+</span>
+        <span class="stat-label">Projets livrés</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">97%</span>
+        <span class="stat-label">Taux de satisfaction</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- À PROPOS -->
+<section id="apropos">
+  <div class="section-inner">
+    <div class="apropos-grid">
+      <div class="apropos-visual fade-up">
+        <div class="apropos-card">
+          <div class="apropos-card-tag">Notre ADN</div>
+          <p>Fondée sur la conviction que chaque organisation mérite une stratégie digitale à la hauteur de ses ambitions, DS Consulting place l'excellence et la transparence au cœur de chaque mission.</p>
+          <div class="apropos-line"></div>
+          <ul class="values-list">
+            <li>
+              <div class="val-icon">🎯</div>
+              <div class="val-text">
+                <strong>Orientation résultats</strong>
+                <span>Chaque action mesurable, chaque euro justifié</span>
+              </div>
+            </li>
+            <li>
+              <div class="val-icon">🤝</div>
+              <div class="val-text">
+                <strong>Partenariat durable</strong>
+                <span>Votre succès est notre réputation</span>
+              </div>
+            </li>
+            <li>
+              <div class="val-icon">💡</div>
+              <div class="val-text">
+                <strong>Innovation continue</strong>
+                <span>Anticiper les tendances pour rester en avance</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="apropos-text fade-up">
+        <span class="section-tag">À propos de DS Consulting</span>
+        <h2>Une expertise forgée <em>sur le terrain</em></h2>
+        <p>DS Consulting est une agence de consulting digitale fondée par des praticiens du secteur. Notre équipe pluridisciplinaire réunit des experts en marketing digital, en communication stratégique et en gouvernance associative, tous animés par la même exigence : <strong>produire des résultats concrets et durables.</strong></p>
+        <p>Nous croyons que la transformation digitale ne se résume pas à des outils ou des tendances. Elle repose sur une compréhension fine de votre organisation, de vos objectifs et de vos publics. C'est pourquoi chaque mission commence par une écoute approfondie avant toute recommandation.</p>
+        <p>Que vous soyez une PME ambitieuse, une start-up en croissance ou une association cherchant à professionnaliser sa communication, <strong>nous construisons avec vous une stratégie qui vous ressemble.</strong></p>
+        <div class="expertise-badges">
+          <span class="badge">Réseaux sociaux</span>
+          <span class="badge">Marketing digital</span>
+          <span class="badge">Gestion associative</span>
+          <span class="badge">Audit & Stratégie</span>
+          <span class="badge">Formation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <span class="section-tag">Ce que nous faisons</span>
+    <h2>Nos <em>expertises</em></h2>
+    <p class="section-lead">Trois domaines d'excellence pour répondre à l'ensemble de vos enjeux digitaux et organisationnels.</p>
+    <div class="services-grid">
+      <div class="service-card fade-up">
+        <div class="service-num">01</div>
+        <div class="service-icon">📱</div>
+        <h3>Réseaux sociaux & Community management</h3>
+        <p>Développez une présence digitale cohérente, engageante et convertissante sur les plateformes qui comptent pour votre audience.</p>
+        <ul class="service-list">
+          <li>Stratégie de contenu & calendrier éditorial</li>
+          <li>Production de contenus visuels & rédactionnels</li>
+          <li>Gestion des communautés & modération</li>
+          <li>Reporting mensuel & optimisation continue</li>
+        </ul>
+        <a href="#contact" class="service-link">Discuter de votre projet →</a>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-num">02</div>
+        <div class="service-icon">📈</div>
+        <h3>Stratégie marketing digitale</h3>
+        <p>De l'audit à l'exécution, nous élaborons des stratégies marketing digitales sur mesure qui génèrent des leads qualifiés et du chiffre d'affaires.</p>
+        <ul class="service-list">
+          <li>Audit digital & analyse concurrentielle</li>
+          <li>Stratégie SEO/SEA & acquisition payante</li>
+          <li>Tunnels de conversion & automation</li>
+          <li>Tableaux de bord analytics & pilotage</li>
+        </ul>
+        <a href="#contact" class="service-link">Discuter de votre projet →</a>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-num">03</div>
+        <div class="service-icon">🏛️</div>
+        <h3>Consulting en gestion d'associations</h3>
+        <p>Accompagnement opérationnel et stratégique des associations pour structurer leur fonctionnement, renforcer leur impact et pérenniser leur activité.</p>
+        <ul class="service-list">
+          <li>Gouvernance & structuration interne</li>
+          <li>Stratégie de communication institutionnelle</li>
+          <li>Ingénierie de projet & levée de fonds</li>
+          <li>Formation des équipes bénévoles</li>
+        </ul>
+        <a href="#contact" class="service-link">Discuter de votre projet →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ILS NOUS ONT FAIT CONFIANCE -->
+<section id="confiance">
+  <div class="section-inner">
+    <span class="section-tag">Nos références</span>
+    <h2>Ils nous ont fait <em>confiance</em></h2>
+    <p class="section-lead">Des organisations de tous secteurs nous font confiance pour piloter leur stratégie digitale et organisationnelle.</p>
+    <div class="confiance-badge">
+      <span>✦</span> 50+ organisations accompagnées depuis 2016
+    </div>
+    <div class="logos-grid">
+      <div class="logo-item fade-up">
+        <div class="logo-initials">AT</div>
+        <div class="logo-name">Atelier Tech</div>
+      </div>
+      <div class="logo-item fade-up">
+        <div class="logo-initials">NV</div>
+        <div class="logo-name">Nova Group</div>
+      </div>
+      <div class="logo-item fade-up">
+        <div class="logo-initials">EB</div>
+        <div class="logo-name">Esprit Bâtir</div>
+      </div>
+      <div class="logo-item fade-up">
+        <div class="logo-initials">CF</div>
+        <div class="logo-name">Cap Formation</div>
+      </div>
+      <div class="logo-item fade-up">
+        <div class="logo-initials">LR</div>
+        <div class="logo-name">Le Réseau</div>
+      </div>
+      <div class="logo-item fade-up">
+        <div class="logo-initials">AS</div>
+        <div class="logo-name">Assoc. Solidaires</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES -->
+<section id="temoignages">
+  <div class="section-inner">
+    <span class="section-tag">Ce qu'ils disent</span>
+    <h2>Témoignages <em>clients</em></h2>
+    <p class="section-lead">La qualité de notre travail se mesure à la satisfaction de ceux qui nous font confiance.</p>
+    <div class="temoignages-grid">
+      <div class="temo-card fade-up">
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="temo-quote">DS Consulting a complètement transformé notre présence sur les réseaux sociaux. En six mois, notre taux d'engagement a triplé et nos prospects entrants ont doublé. Une équipe à l'écoute, réactive et véritablement experte.</p>
+        <div class="temo-author">
+          <div class="author-avatar">MC</div>
+          <div>
+            <div class="author-name">Marie Chevalier</div>
+            <div class="author-role">Directrice Marketing — Atelier Tech</div>
+          </div>
+        </div>
+      </div>
+      <div class="temo-card fade-up">
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="temo-quote">Grâce à l'accompagnement de DS Consulting, notre association a enfin une stratégie de communication claire et des outils pour mesurer notre impact. Leur connaissance du monde associatif est un vrai atout différenciateur.</p>
+        <div class="temo-author">
+          <div class="author-avatar">TB</div>
+          <div>
+            <div class="author-name">Thomas Bernard</div>
+            <div class="author-role">Président — Assoc. Solidaires</div>
+          </div>
+        </div>
+      </div>
+      <div class="temo-card fade-up">
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="temo-quote">La stratégie SEA mise en place par DS Consulting nous a permis de réduire notre coût d'acquisition de 40% tout en augmentant le volume de leads qualifiés. Des résultats au-delà de nos attentes, en toute transparence.</p>
+        <div class="temo-author">
+          <div class="author-avatar">SL</div>
+          <div>
+            <div class="author-name">Sophia Laurent</div>
+            <div class="author-role">CEO — Nova Group</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div>
+        <span class="section-tag">Travaillons ensemble</span>
+        <h2>Prenons <em>contact</em></h2>
+        <p class="section-lead" style="margin-bottom:2rem;">Vous avez un projet, une question ou simplement envie d'explorer comment DS Consulting peut vous accompagner ? Nous vous répondons sous 24h.</p>
+        <div class="contact-items">
+          <a class="contact-item" href="mailto:contact@ds-consulting.fr">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-val">contact@ds-consulting.fr</div>
+            </div>
+          </a>
+          <a class="contact-item" href="tel:+33612345678">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="contact-label">Téléphone</div>
+              <div class="contact-val">+33 6 12 34 56 78</div>
+            </div>
+          </a>
+          <a class="contact-item" href="#" target="_blank">
+            <div class="contact-icon">💼</div>
+            <div>
+              <div class="contact-label">LinkedIn</div>
+              <div class="contact-val">DS Consulting Officiel</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="form-card fade-up">
+        <h3>Démarrez votre projet</h3>
+        <p>Tous les champs marqués d'un * sont obligatoires.</p>
+        <form id="contactForm" onsubmit="submitForm(event)" novalidate>
+          <div class="form-row">
+            <div class="form-group" id="g-nom">
+              <label for="nom">Nom *</label>
+              <input type="text" id="nom" placeholder="Dupont">
+              <span class="field-error">Ce champ est requis.</span>
+            </div>
+            <div class="form-group" id="g-prenom">
+              <label for="prenom">Prénom *</label>
+              <input type="text" id="prenom" placeholder="Jean">
+              <span class="field-error">Ce champ est requis.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" id="g-email">
+              <label for="email">Email *</label>
+              <input type="email" id="email" placeholder="jean.dupont@email.com">
+              <span class="field-error">Veuillez saisir un email valide.</span>
+            </div>
+            <div class="form-group" id="g-tel">
+              <label for="tel">Téléphone</label>
+              <input type="tel" id="tel" placeholder="+33 6 xx xx xx xx">
+            </div>
+          </div>
+          <div class="form-group" id="g-objet">
+            <label for="objet">Objet de la demande *</label>
+            <select id="objet">
+              <option value="">— Sélectionnez un sujet —</option>
+              <option value="reseaux">Réseaux sociaux & Community management</option>
+              <option value="marketing">Stratégie marketing digitale</option>
+              <option value="asso">Consulting en gestion d'associations</option>
+              <option value="audit">Demande d'audit</option>
+              <option value="autre">Autre demande</option>
+            </select>
+            <span class="field-error">Veuillez sélectionner un objet.</span>
+          </div>
+          <div class="form-group" id="g-msg">
+            <label for="message">Message *</label>
+            <textarea id="message" placeholder="Décrivez brièvement votre projet ou votre demande…"></textarea>
+            <span class="field-error">Ce champ est requis.</span>
+          </div>
+          <button type="submit" class="btn-primary form-submit">Envoyer votre message →</button>
+          <div class="success-msg" id="successMsg">
+            ✓ Votre message a bien été envoyé. Nous vous recontacterons dans les 24 heures.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#accueil" class="nav-logo" style="margin-bottom:0.75rem;display:inline-flex;">
+          <div class="logo-mark">DS</div>
+          <span class="logo-text" style="margin-left:10px;">DS <span>Consulting</span></span>
+        </a>
+        <p>Votre partenaire stratégique pour une transformation digitale réussie et durable.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#accueil">Accueil</a></li>
+          <li><a href="#apropos">À propos</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#confiance">Références</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Réseaux sociaux</a></li>
+          <li><a href="#services">Marketing digital</a></li>
+          <li><a href="#services">Gestion associative</a></li>
+          <li><a href="#contact">Audit gratuit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:contact@ds-consulting.fr">contact@ds-consulting.fr</a></li>
+          <li><a href="tel:+33612345678">+33 6 12 34 56 78</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#contact">Formulaire de contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <p>© 2025 DS Consulting. Tous droits réservés.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">tw</a>
+        <a href="#" class="social-btn">ig</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── HAMBURGER
+  function toggleMenu() {
+    document.getElementById('hamburger').classList.toggle('open');
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  // ── SCROLL ANIMATIONS
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── FORM VALIDATION
+  function submitForm(e) {
+    e.preventDefault();
+    let valid = true;
+
+    const checks = [
+      { id: 'nom', gid: 'g-nom', test: v => v.trim().length > 0 },
+      { id: 'prenom', gid: 'g-prenom', test: v => v.trim().length > 0 },
+      { id: 'email', gid: 'g-email', test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      { id: 'objet', gid: 'g-objet', test: v => v !== '' },
+      { id: 'message', gid: 'g-msg', test: v => v.trim().length > 10 },
+    ];
+
+    checks.forEach(c => {
+      const val = document.getElementById(c.id).value;
+      const grp = document.getElementById(c.gid);
+      if (!c.test(val)) {
+        grp.classList.add('error');
+        valid = false;
+      } else {
+        grp.classList.remove('error');
+      }
+    });
+
+    if (valid) {
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    }
+  }
+
+  // ── LIVE VALIDATION
+  ['nom','prenom','email','objet','message'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => {
+      const gid = 'g-' + (id === 'message' ? 'msg' : id === 'objet' ? 'objet' : id);
+      const grp = document.getElementById(gid);
+      if (grp) grp.classList.remove('error');
+    });
+  });
+</script>
+</body>
+</html>
